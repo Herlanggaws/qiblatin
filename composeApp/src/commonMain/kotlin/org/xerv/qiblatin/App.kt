@@ -4,7 +4,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.xerv.qiblatin.presentation.HomeScreen
-import org.xerv.qiblatin.presentation.PrayerScheduleScreen
+import org.xerv.qiblatin.presentation.prayerschedule.PrayerScheduleScreen
 
 @Composable
 @Preview

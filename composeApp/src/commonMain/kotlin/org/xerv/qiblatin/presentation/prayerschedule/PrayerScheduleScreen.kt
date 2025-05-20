@@ -1,4 +1,4 @@
-package org.xerv.qiblatin.presentation
+package org.xerv.qiblatin.presentation.prayerschedule
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,13 +13,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.koin.compose.koinInject
 import org.xerv.qiblatin.component.BackIcon
 import org.xerv.qiblatin.component.DateSelector
 import org.xerv.qiblatin.component.DailyPrayerSchedule
 import org.xerv.qiblatin.component.WeeklySchedulePreview
+import org.xerv.qiblatin.presentation.LightGray
+
 
 @Composable
-fun PrayerScheduleScreen(onBackClick: () -> Unit) {
+fun PrayerScheduleScreen(
+    onBackClick: () -> Unit,
+    viewModel: PrayerScheduleViewModel = koinInject()
+) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -36,7 +44,6 @@ fun PrayerScheduleScreen(onBackClick: () -> Unit) {
                     .padding(bottom = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Back button
                 Box(
                     modifier = Modifier
                         .size(40.dp)
@@ -51,24 +58,39 @@ fun PrayerScheduleScreen(onBackClick: () -> Unit) {
                 Spacer(modifier = Modifier.width(16.dp))
 
                 Text(
-                    "Prayer Schedule",
+                    text = "Prayer Schedule",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
 
             // Date picker
-            DateSelector()
+            DateSelector(
+                selectedDate = uiState.selectedDate,
+                onDateChanged = viewModel::onDateChanged
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Prayer times for the day
-            DailyPrayerSchedule()
+            when {
+                uiState.isLoading -> {
+                    Text("Loading prayer times...")
+                }
+                uiState.error != null -> {
+                    Text("Error: ${uiState.error}")
 
-            Spacer(modifier = Modifier.height(24.dp))
+                }
+                else -> {
+                    // Prayer times
+                    uiState.prayerResponse?.let {
+                        DailyPrayerSchedule(it)
+                    }
 
-            // Weekly schedule preview
-            WeeklySchedulePreview()
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    WeeklySchedulePreview()
+                }
+            }
         }
     }
 }

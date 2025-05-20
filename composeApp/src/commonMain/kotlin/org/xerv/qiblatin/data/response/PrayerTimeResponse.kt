@@ -1,4 +1,4 @@
-package org.xerv.qiblatin.data
+package org.xerv.qiblatin.data.response
 
 import kotlinx.serialization.Serializable
 
@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class PrayerTimeResponse(
     val code: Int,
     val status: String,
-    val data: PrayerData
+    val data: PrayerDataResponse
 )

@@ -10,10 +10,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.xerv.qiblatin.domain.models.PrayerResponse
 import org.xerv.qiblatin.presentation.LightGray
 
 @Composable
-fun DailyPrayerSchedule() {
+fun DailyPrayerSchedule(prayerResponse: PrayerResponse) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = LightGray),
@@ -29,13 +30,12 @@ fun DailyPrayerSchedule() {
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            // List of prayers
             val prayerTimes = listOf(
-                Triple("Fajr", "05:12", "Missed"),
-                Triple("Dhuhr", "12:34", "Prayed"),
-                Triple("Asr", "15:45", "Prayed"),
-                Triple("Maghrib", "17:42", "Next"),
-                Triple("Isha", "19:15", "Upcoming")
+                Triple("Fajr", prayerResponse.data.timings.fajr, "Missed"),
+                Triple("Dhuhr", prayerResponse.data.timings.dhuhr, "Prayed"),
+                Triple("Asr", prayerResponse.data.timings.asr, "Prayed"),
+                Triple("Maghrib", prayerResponse.data.timings.maghrib, "Next"),
+                Triple("Isha", prayerResponse.data.timings.isha, "Upcoming")
             )
 
             prayerTimes.forEach { (prayer, time, status) ->
