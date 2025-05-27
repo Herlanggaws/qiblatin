@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.sp
 import org.xerv.qiblatin.presentation.PrimaryOrange
 
 @Composable
-fun NearbyPrayerPlaces() {
+fun NearbyPrayerPlaces(onViewNearbyClick: () -> Unit) {
     Column {
         Text(
             text = "Nearby Prayer Places",
@@ -41,7 +41,7 @@ fun NearbyPrayerPlaces() {
         }
 
         Button(
-            onClick = { /* See all mosques */ },
+            onClick = onViewNearbyClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),

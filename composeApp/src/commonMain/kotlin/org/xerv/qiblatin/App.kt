@@ -4,6 +4,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.xerv.qiblatin.presentation.HomeScreen
+import org.xerv.qiblatin.presentation.nearbyplaces.NearbyPlacesScreen
 import org.xerv.qiblatin.presentation.prayerschedule.PrayerScheduleScreen
 
 @Composable
@@ -15,11 +16,19 @@ fun App() {
         when (currentScreen) {
             Screen.Home -> {
                 HomeScreen(
-                    onNavigateToSchedule = { currentScreen = Screen.PrayerSchedule }
+                    onNavigateToSchedule = { currentScreen = Screen.PrayerSchedule },
+                    onNavigateToNearbyPlaces = { currentScreen = Screen.NearbyPrayerPlaces }
                 )
             }
+
             Screen.PrayerSchedule -> {
                 PrayerScheduleScreen(
+                    onBackClick = { currentScreen = Screen.Home }
+                )
+            }
+
+            Screen.NearbyPrayerPlaces -> {
+                NearbyPlacesScreen(
                     onBackClick = { currentScreen = Screen.Home }
                 )
             }

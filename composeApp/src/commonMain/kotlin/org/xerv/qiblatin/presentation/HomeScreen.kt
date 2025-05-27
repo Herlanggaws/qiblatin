@@ -22,6 +22,7 @@ val MintGreen = Color(0xFF6BBDA3)
 @Composable
 fun HomeScreen(
     onNavigateToSchedule: () -> Unit,
+    onNavigateToNearbyPlaces: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -34,7 +35,7 @@ fun HomeScreen(
         ) {
             NextPrayerCard(onViewScheduleClick = onNavigateToSchedule)
             Spacer(modifier = Modifier.height(24.dp))
-            NearbyPrayerPlaces()
+            NearbyPrayerPlaces(onViewNearbyClick = onNavigateToNearbyPlaces)
             Spacer(modifier = Modifier.height(24.dp))
             RecentActivityCard()
             Spacer(modifier = Modifier.height(24.dp))
