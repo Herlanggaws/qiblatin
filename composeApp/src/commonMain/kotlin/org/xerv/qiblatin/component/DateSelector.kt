@@ -8,15 +8,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.Month
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlinx.datetime.toLocalDateTime
 
 @Composable
 fun DateSelector(
     selectedDate: String,
     onDateChanged: (String) -> Unit
 ) {
-    val dates = listOf("15 May", "16 May", "17 May", "18 May", "19 May")
+    val dates = remember {
+        val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+        (0..4).map { dayOffset ->
+            val date = today.plus(dayOffset, DateTimeUnit.DAY)
+            "${date.dayOfMonth} ${getMonthAbbreviation(date.month)}"
+        }
+    }
 
     LazyRow(
         modifier = Modifier
@@ -36,3 +49,20 @@ fun DateSelector(
     }
 }
 
+private fun getMonthAbbreviation(month: kotlinx.datetime.Month): String {
+    return when (month) {
+        Month.JANUARY -> "Jan"
+        Month.FEBRUARY -> "Feb"
+        Month.MARCH -> "Mar"
+        Month.APRIL -> "Apr"
+        Month.MAY -> "May"
+        Month.JUNE -> "Jun"
+        Month.JULY -> "Jul"
+        Month.AUGUST -> "Aug"
+        Month.SEPTEMBER -> "Sep"
+        Month.OCTOBER -> "Oct"
+        Month.NOVEMBER -> "Nov"
+        Month.DECEMBER -> "Dec"
+        else -> ""
+    }
+}
